@@ -1,0 +1,1641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Jan Kalyan | Government Eligibility Portal</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- ================= NAVBAR ================= -->
+
+  <header class="navbar">
+
+    <div class="nav-container">
+
+      <a href="#" class="brand" onclick="showPage('home')">
+
+        <div class="brand-logo">JK</div>
+
+        <div>
+          <div class="brand-title">Jan Kalyan</div>
+          <div class="brand-subtitle">
+            Government Eligibility Portal
+          </div>
+        </div>
+
+      </a>
+
+
+      <nav class="nav-links">
+
+        <a href="#" onclick="showPage('home')">
+          Home
+        </a>
+
+        <a href="#" onclick="showPage('schemes')">
+          Schemes
+        </a>
+
+        <a href="#" onclick="showPage('eligibility')">
+          Check Eligibility
+        </a>
+
+        <a href="#" onclick="showPage('dashboard')">
+          Dashboard
+        </a>
+
+      </nav>
+
+
+      <div class="nav-actions">
+
+        <button
+          class="notification-btn"
+          onclick="showPage('dashboard')"
+          title="Notifications"
+        >
+          🔔
+          <span class="notification-badge">3</span>
+        </button>
+
+        <button
+          class="btn btn-outline"
+          onclick="showPage('login')"
+        >
+          Login
+        </button>
+
+        <button
+          class="btn btn-primary"
+          onclick="showPage('register')"
+        >
+          Register
+        </button>
+
+      </div>
+
+    </div>
+
+  </header>
+
+
+  <!-- ================= MAIN ================= -->
+
+  <main>
+
+    <!-- ================= HOME ================= -->
+
+    <section id="home" class="page active">
+
+      <div class="hero">
+
+        <div class="hero-content">
+
+          <span class="eyebrow">
+            🇮🇳 Government Welfare Services
+          </span>
+
+          <h1>
+            Find Government Schemes
+            <span>You're Eligible For</span>
+          </h1>
+
+          <p>
+            Discover government schemes and benefits based on your
+            personal profile, location, income and eligibility criteria.
+          </p>
+
+
+          <div class="hero-actions">
+
+            <button
+              class="btn btn-primary btn-large"
+              onclick="showPage('eligibility')"
+            >
+              Check My Eligibility →
+            </button>
+
+            <button
+              class="btn btn-outline btn-large"
+              onclick="showPage('schemes')"
+            >
+              Browse Schemes
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <div class="hero-card">
+
+          <div class="hero-card-icon">
+            ✓
+          </div>
+
+          <h3>Simple & Transparent</h3>
+
+          <p>
+            Answer a few questions and discover schemes
+            relevant to your profile.
+          </p>
+
+          <div class="mini-progress">
+
+            <div class="progress-line"></div>
+
+            <span>Eligibility Check</span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- HOW IT WORKS -->
+
+      <div class="container">
+
+        <div class="section-heading">
+
+          <span class="section-label">
+            How it works
+          </span>
+
+          <h2>
+            Access benefits in three simple steps
+          </h2>
+
+        </div>
+
+
+        <div class="steps">
+
+          <div class="step-card">
+
+            <div class="step-number">
+              01
+            </div>
+
+            <h3>Create Your Profile</h3>
+
+            <p>
+              Provide basic information such as age,
+              state, occupation and income.
+            </p>
+
+          </div>
+
+
+          <div class="step-card">
+
+            <div class="step-number">
+              02
+            </div>
+
+            <h3>Check Eligibility</h3>
+
+            <p>
+              Our eligibility engine matches your profile
+              against available government schemes.
+            </p>
+
+          </div>
+
+
+          <div class="step-card">
+
+            <div class="step-number">
+              03
+            </div>
+
+            <h3>Apply for Benefits</h3>
+
+            <p>
+              View scheme details and continue to the
+              official application portal.
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= ELIGIBILITY ================= -->
+
+    <section id="eligibility" class="page">
+
+      <div class="page-header">
+
+        <div>
+
+          <span class="section-label">
+            Eligibility Checker
+          </span>
+
+          <h1>
+            Check Your Eligibility
+          </h1>
+
+          <p>
+            Enter your details to find government schemes
+            that may match your profile.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="container">
+
+        <div class="form-card">
+
+          <div class="form-progress">
+
+            <div class="progress-step active">
+              <span>1</span>
+              Personal
+            </div>
+
+            <div class="progress-step">
+              <span>2</span>
+              Income
+            </div>
+
+            <div class="progress-step">
+              <span>3</span>
+              Location
+            </div>
+
+          </div>
+
+
+          <form onsubmit="runEligibility(event)">
+
+            <h2>Personal Information</h2>
+
+
+            <div class="form-grid">
+
+              <div class="form-group">
+
+                <label>
+                  Full Name
+                </label>
+
+                <input
+                  type="text"
+                  id="name"
+                  placeholder="Enter your name"
+                  required
+                />
+
+              </div>
+
+
+              <div class="form-group">
+
+                <label>
+                  Age
+                </label>
+
+                <input
+                  type="number"
+                  id="age"
+                  placeholder="Enter your age"
+                  min="1"
+                  max="120"
+                  required
+                />
+
+              </div>
+
+
+              <div class="form-group">
+
+                <label>
+                  State
+                </label>
+
+                <select id="state" required>
+
+                  <option value="">
+                    Select State
+                  </option>
+
+                  <option>Maharashtra</option>
+                  <option>Gujarat</option>
+                  <option>Rajasthan</option>
+                  <option>Madhya Pradesh</option>
+                  <option>Uttar Pradesh</option>
+                  <option>Delhi</option>
+
+                </select>
+
+              </div>
+
+
+              <div class="form-group">
+
+                <label>
+                  Category
+                </label>
+
+                <select id="category" required>
+
+                  <option value="">
+                    Select Category
+                  </option>
+
+                  <option>General</option>
+                  <option>OBC</option>
+                  <option>SC</option>
+                  <option>ST</option>
+
+                </select>
+
+              </div>
+
+
+              <div class="form-group">
+
+                <label>
+                  Annual Family Income
+                </label>
+
+                <select id="income" required>
+
+                  <option value="">
+                    Select Income Range
+                  </option>
+
+                  <option value="100000">
+                    Below ₹1 Lakh
+                  </option>
+
+                  <option value="300000">
+                    ₹1 - ₹3 Lakh
+                  </option>
+
+                  <option value="500000">
+                    ₹3 - ₹5 Lakh
+                  </option>
+
+                  <option value="1000000">
+                    Above ₹5 Lakh
+                  </option>
+
+                </select>
+
+              </div>
+
+
+              <div class="form-group">
+
+                <label>
+                  Occupation
+                </label>
+
+                <select id="occupation" required>
+
+                  <option value="">
+                    Select Occupation
+                  </option>
+
+                  <option>Student</option>
+                  <option>Farmer</option>
+                  <option>Self Employed</option>
+                  <option>Salaried</option>
+                  <option>Unemployed</option>
+
+                </select>
+
+              </div>
+
+            </div>
+
+
+            <div class="form-footer">
+
+              <button
+                type="button"
+                class="btn btn-outline"
+                onclick="showPage('home')"
+              >
+                Cancel
+              </button>
+
+              <button
+                type="submit"
+                class="btn btn-primary"
+              >
+                Find Eligible Schemes →
+              </button>
+
+            </div>
+
+          </form>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= SCHEMES ================= -->
+
+    <section id="schemes" class="page">
+
+      <div class="page-header">
+
+        <div>
+
+          <span class="section-label">
+            Government Schemes
+          </span>
+
+          <h1>
+            Browse Schemes
+          </h1>
+
+          <p>
+            Explore available government welfare schemes.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="container">
+
+        <div class="filter-bar">
+
+          <div class="search-box">
+
+            🔍
+
+            <input
+              type="text"
+              id="schemeSearch"
+              placeholder="Search schemes..."
+              onkeyup="filterSchemes()"
+            />
+
+          </div>
+
+
+          <select
+            id="categoryFilter"
+            onchange="filterSchemes()"
+          >
+
+            <option value="all">
+              All Categories
+            </option>
+
+            <option value="education">
+              Education
+            </option>
+
+            <option value="health">
+              Health
+            </option>
+
+            <option value="farmer">
+              Agriculture
+            </option>
+
+            <option value="employment">
+              Employment
+            </option>
+
+          </select>
+
+
+          <select>
+
+            <option>
+              All States
+            </option>
+
+            <option>
+              Maharashtra
+            </option>
+
+            <option>
+              Gujarat
+            </option>
+
+            <option>
+              Rajasthan
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <!-- SCHEME CARDS -->
+
+        <div
+          class="scheme-grid"
+          id="schemeGrid"
+        >
+
+          <!-- PM KISAN -->
+
+          <article
+            class="scheme-card"
+            data-category="farmer"
+            data-name="pm kisan samman nidhi"
+          >
+
+            <div class="scheme-icon farmer">
+              🌾
+            </div>
+
+            <div class="scheme-content">
+
+              <div class="scheme-top">
+
+                <span class="tag green">
+                  Agriculture
+                </span>
+
+                <button class="bookmark">
+                  ♡
+                </button>
+
+              </div>
+
+              <h3>
+                PM Kisan Samman Nidhi
+              </h3>
+
+              <p>
+                Financial assistance for eligible farmer families.
+              </p>
+
+              <div class="scheme-benefit">
+
+                <strong>
+                  Benefit
+                </strong>
+
+                <span>
+                  ₹6,000 per year
+                </span>
+
+              </div>
+
+              <button
+                class="text-btn"
+                onclick="showScheme('pm-kisan')"
+              >
+                View Details →
+              </button>
+
+            </div>
+
+          </article>
+
+
+          <!-- AYUSHMAN -->
+
+          <article
+            class="scheme-card"
+            data-category="health"
+            data-name="ayushman bharat"
+          >
+
+            <div class="scheme-icon health">
+              ❤️
+            </div>
+
+            <div class="scheme-content">
+
+              <div class="scheme-top">
+
+                <span class="tag blue">
+                  Health
+                </span>
+
+                <button class="bookmark">
+                  ♡
+                </button>
+
+              </div>
+
+              <h3>
+                Ayushman Bharat
+              </h3>
+
+              <p>
+                Health coverage for eligible families.
+              </p>
+
+              <div class="scheme-benefit">
+
+                <strong>
+                  Benefit
+                </strong>
+
+                <span>
+                  Health coverage
+                </span>
+
+              </div>
+
+              <button
+                class="text-btn"
+                onclick="showScheme('ayushman')"
+              >
+                View Details →
+              </button>
+
+            </div>
+
+          </article>
+
+
+          <!-- SCHOLARSHIP -->
+
+          <article
+            class="scheme-card"
+            data-category="education"
+            data-name="national scholarship"
+          >
+
+            <div class="scheme-icon education">
+              🎓
+            </div>
+
+            <div class="scheme-content">
+
+              <div class="scheme-top">
+
+                <span class="tag purple">
+                  Education
+                </span>
+
+                <button class="bookmark">
+                  ♡
+                </button>
+
+              </div>
+
+              <h3>
+                National Scholarship Scheme
+              </h3>
+
+              <p>
+                Financial support for eligible students.
+              </p>
+
+              <div class="scheme-benefit">
+
+                <strong>
+                  Benefit
+                </strong>
+
+                <span>
+                  Scholarship assistance
+                </span>
+
+              </div>
+
+              <button
+                class="text-btn"
+                onclick="showScheme('scholarship')"
+              >
+                View Details →
+              </button>
+
+            </div>
+
+          </article>
+
+
+          <!-- SKILL INDIA -->
+
+          <article
+            class="scheme-card"
+            data-category="employment"
+            data-name="skill india"
+          >
+
+            <div class="scheme-icon employment">
+              💼
+            </div>
+
+            <div class="scheme-content">
+
+              <div class="scheme-top">
+
+                <span class="tag orange">
+                  Employment
+                </span>
+
+                <button class="bookmark">
+                  ♡
+                </button>
+
+              </div>
+
+              <h3>
+                Skill India
+              </h3>
+
+              <p>
+                Skill development and employment-oriented training.
+              </p>
+
+              <div class="scheme-benefit">
+
+                <strong>
+                  Benefit
+                </strong>
+
+                <span>
+                  Skill training
+                </span>
+
+              </div>
+
+              <button
+                class="text-btn"
+                onclick="showScheme('skill')"
+              >
+                View Details →
+              </button>
+
+            </div>
+
+          </article>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= SCHEME DETAIL ================= -->
+
+    <section id="scheme-detail" class="page">
+
+      <div class="container detail-container">
+
+        <button
+          class="back-btn"
+          onclick="showPage('schemes')"
+        >
+          ← Back to Schemes
+        </button>
+
+
+        <div class="detail-card">
+
+          <div class="detail-header">
+
+            <div class="scheme-icon large">
+              🌾
+            </div>
+
+            <div>
+
+              <span class="tag green">
+                Agriculture
+              </span>
+
+              <h1 id="detailTitle">
+                PM Kisan Samman Nidhi
+              </h1>
+
+              <p id="detailDescription">
+                Financial assistance for eligible farmer families.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div class="detail-grid">
+
+            <div>
+
+              <h2>
+                Benefits
+              </h2>
+
+              <ul class="check-list">
+
+                <li>
+                  Financial assistance to eligible beneficiaries
+                </li>
+
+                <li>
+                  Direct benefit transfer
+                </li>
+
+                <li>
+                  Multiple instalments as applicable
+                </li>
+
+              </ul>
+
+            </div>
+
+
+            <div>
+
+              <h2>
+                Documents Required
+              </h2>
+
+              <ul class="document-list">
+
+                <li>
+                  ✓ Aadhaar Card
+                </li>
+
+                <li>
+                  ✓ Bank Account Details
+                </li>
+
+                <li>
+                  ✓ Address Proof
+                </li>
+
+              </ul>
+
+            </div>
+
+          </div>
+
+
+          <div class="eligibility-box">
+
+            <div>
+
+              <strong>
+                Eligibility
+              </strong>
+
+              <p>
+                Eligibility depends on the criteria defined
+                for this scheme.
+              </p>
+
+            </div>
+
+            <span class="eligible">
+              Check Eligibility
+            </span>
+
+          </div>
+
+
+          <div class="detail-actions">
+
+            <button
+              class="btn btn-outline"
+              onclick="saveScheme()"
+            >
+              ♡ Save Scheme
+            </button>
+
+            <button
+              class="btn btn-primary"
+              onclick="applyScheme()"
+            >
+              Apply on Official Portal →
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= ELIGIBILITY RESULTS ================= -->
+
+    <section id="results" class="page">
+
+      <div class="container">
+
+        <div class="results-header">
+
+          <span class="section-label">
+            Eligibility Results
+          </span>
+
+          <h1>
+            Schemes Matching Your Profile
+          </h1>
+
+          <p>
+            Based on the information you provided,
+            the following schemes match the selected criteria.
+          </p>
+
+        </div>
+
+
+        <div class="match-card">
+
+          <div class="match-icon">
+            ✓
+          </div>
+
+          <div>
+
+            <strong>
+              Eligibility check completed
+            </strong>
+
+            <p>
+              We found schemes matching your profile.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="scheme-grid">
+
+          <article class="scheme-card">
+
+            <div class="scheme-icon farmer">
+              🌾
+            </div>
+
+            <div class="scheme-content">
+
+              <span class="tag green">
+                High Match
+              </span>
+
+              <h3>
+                PM Kisan Samman Nidhi
+              </h3>
+
+              <p>
+                You may match the displayed eligibility criteria.
+              </p>
+
+              <button
+                class="text-btn"
+                onclick="showScheme('pm-kisan')"
+              >
+                View Scheme →
+              </button>
+
+            </div>
+
+          </article>
+
+
+          <article class="scheme-card">
+
+            <div class="scheme-icon health">
+              ❤️
+            </div>
+
+            <div class="scheme-content">
+
+              <span class="tag blue">
+                Matching
+              </span>
+
+              <h3>
+                Ayushman Bharat
+              </h3>
+
+              <p>
+                Your profile may match the scheme criteria.
+              </p>
+
+              <button
+                class="text-btn"
+                onclick="showScheme('ayushman')"
+              >
+                View Scheme →
+              </button>
+
+            </div>
+
+          </article>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= LOGIN ================= -->
+
+    <section id="login" class="page auth-page">
+
+      <div class="auth-card">
+
+        <div class="auth-logo">
+          JK
+        </div>
+
+        <h1>
+          Welcome Back
+        </h1>
+
+        <p>
+          Login to your Jan Kalyan account.
+        </p>
+
+
+        <form onsubmit="login(event)">
+
+          <div class="form-group">
+
+            <label>
+              Email
+            </label>
+
+            <input
+              type="email"
+              placeholder="you@example.com"
+              required
+            />
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              Password
+            </label>
+
+            <input
+              type="password"
+              placeholder="Enter password"
+              required
+            />
+
+          </div>
+
+
+          <button
+            type="submit"
+            class="btn btn-primary full-width"
+          >
+            Login
+          </button>
+
+        </form>
+
+
+        <p class="auth-switch">
+
+          Don't have an account?
+
+          <button onclick="showPage('register')">
+            Register
+          </button>
+
+        </p>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= REGISTER ================= -->
+
+    <section id="register" class="page auth-page">
+
+      <div class="auth-card">
+
+        <div class="auth-logo">
+          JK
+        </div>
+
+        <h1>
+          Create Account
+        </h1>
+
+        <p>
+          Create your Jan Kalyan profile.
+        </p>
+
+
+        <form onsubmit="register(event)">
+
+          <div class="form-group">
+
+            <label>
+              Full Name
+            </label>
+
+            <input
+              type="text"
+              placeholder="Full name"
+              required
+            />
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              Email
+            </label>
+
+            <input
+              type="email"
+              placeholder="you@example.com"
+              required
+            />
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              Password
+            </label>
+
+            <input
+              type="password"
+              placeholder="Create password"
+              required
+            />
+
+          </div>
+
+
+          <button
+            class="btn btn-primary full-width"
+          >
+            Create Account
+          </button>
+
+        </form>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= DASHBOARD ================= -->
+
+    <section id="dashboard" class="page">
+
+      <div class="container">
+
+        <div class="dashboard-header">
+
+          <div>
+
+            <span class="section-label">
+              User Dashboard
+            </span>
+
+            <h1>
+              Welcome, Citizen
+            </h1>
+
+            <p>
+              Manage your applications, saved schemes
+              and notifications.
+            </p>
+
+          </div>
+
+
+          <button
+            class="btn btn-primary"
+            onclick="showPage('eligibility')"
+          >
+            Check Eligibility
+          </button>
+
+        </div>
+
+
+        <div class="stats-grid">
+
+          <div class="stat-card">
+
+            <span>
+              Applications
+            </span>
+
+            <strong>
+              3
+            </strong>
+
+          </div>
+
+
+          <div class="stat-card">
+
+            <span>
+              Saved Schemes
+            </span>
+
+            <strong>
+              5
+            </strong>
+
+          </div>
+
+
+          <div class="stat-card">
+
+            <span>
+              Eligible Schemes
+            </span>
+
+            <strong>
+              7
+            </strong>
+
+          </div>
+
+
+          <div class="stat-card">
+
+            <span>
+              Notifications
+            </span>
+
+            <strong>
+              3
+            </strong>
+
+          </div>
+
+        </div>
+
+
+        <div class="dashboard-card">
+
+          <div class="tabs">
+
+            <button class="tab active">
+              My Applications
+            </button>
+
+            <button class="tab">
+              Saved Schemes
+            </button>
+
+            <button class="tab">
+              Notifications
+            </button>
+
+          </div>
+
+
+          <div class="application-row">
+
+            <div>
+
+              <strong>
+                PM Kisan Samman Nidhi
+              </strong>
+
+              <p>
+                Application submitted
+              </p>
+
+            </div>
+
+            <span class="status submitted">
+              Submitted
+            </span>
+
+          </div>
+
+
+          <div class="application-row">
+
+            <div>
+
+              <strong>
+                Ayushman Bharat
+              </strong>
+
+              <p>
+                Application under review
+              </p>
+
+            </div>
+
+            <span class="status review">
+              Under Review
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= ADMIN ================= -->
+
+    <section id="admin" class="page">
+
+      <div class="container">
+
+        <div class="dashboard-header">
+
+          <div>
+
+            <span class="section-label">
+              Administration
+            </span>
+
+            <h1>
+              Admin Dashboard
+            </h1>
+
+            <p>
+              Manage government schemes and synchronization.
+            </p>
+
+          </div>
+
+
+          <button class="btn btn-primary">
+            + Add Scheme
+          </button>
+
+        </div>
+
+
+        <div class="stats-grid">
+
+          <div class="stat-card">
+
+            <span>
+              Total Schemes
+            </span>
+
+            <strong>
+              124
+            </strong>
+
+          </div>
+
+
+          <div class="stat-card">
+
+            <span>
+              Active Schemes
+            </span>
+
+            <strong>
+              118
+            </strong>
+
+          </div>
+
+
+          <div class="stat-card">
+
+            <span>
+              Applications
+            </span>
+
+            <strong>
+              4,281
+            </strong>
+
+          </div>
+
+
+          <div class="stat-card">
+
+            <span>
+              Last Sync
+            </span>
+
+            <strong>
+              Today
+            </strong>
+
+          </div>
+
+        </div>
+
+
+        <div class="dashboard-card">
+
+          <div class="table-header">
+
+            <h2>
+              Manage Schemes
+            </h2>
+
+            <button class="btn btn-outline">
+              Sync Now
+            </button>
+
+          </div>
+
+
+          <div class="table-wrapper">
+
+            <table>
+
+              <thead>
+
+                <tr>
+
+                  <th>
+                    Scheme
+                  </th>
+
+                  <th>
+                    Category
+                  </th>
+
+                  <th>
+                    Status
+                  </th>
+
+                  <th>
+                    Actions
+                  </th>
+
+                </tr>
+
+              </thead>
+
+
+              <tbody>
+
+                <tr>
+
+                  <td>
+                    PM Kisan Samman Nidhi
+                  </td>
+
+                  <td>
+                    Agriculture
+                  </td>
+
+                  <td>
+
+                    <span class="status active-status">
+                      Active
+                    </span>
+
+                  </td>
+
+                  <td>
+
+                    <button class="icon-action">
+                      Edit
+                    </button>
+
+                    <button class="icon-action danger">
+                      Delete
+                    </button>
+
+                  </td>
+
+                </tr>
+
+
+                <tr>
+
+                  <td>
+                    Ayushman Bharat
+                  </td>
+
+                  <td>
+                    Health
+                  </td>
+
+                  <td>
+
+                    <span class="status active-status">
+                      Active
+                    </span>
+
+                  </td>
+
+                  <td>
+
+                    <button class="icon-action">
+                      Edit
+                    </button>
+
+                    <button class="icon-action danger">
+                      Delete
+                    </button>
+
+                  </td>
+
+                </tr>
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- ================= FOOTER ================= -->
+
+  <footer>
+
+    <div class="footer-container">
+
+      <div>
+
+        <strong>
+          Jan Kalyan
+        </strong>
+
+        <p>
+          Government Scheme Eligibility Portal
+        </p>
+
+      </div>
+
+
+      <div class="footer-links">
+
+        <a href="#">
+          Privacy Policy
+        </a>
+
+        <a href="#">
+          Terms
+        </a>
+
+        <a href="#">
+          Help
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <div class="copyright">
+
+      © 2026 Jan Kalyan. Prototype interface.
+
+    </div>
+
+  </footer>
+
+
+  <script src="app.js"></script>
+
+</body>
+</html>
