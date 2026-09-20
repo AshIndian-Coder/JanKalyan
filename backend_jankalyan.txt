@@ -1,0 +1,93 @@
+src/main/java/com/portal/schemes/
+
+├── SchemesApplication.java
+│   → Main entry point. @SpringBootApplication + @EnableScheduling
+
+├── config/
+│   ├── SecurityConfig.java     → JWT filter chain, role-based route protection
+│   ├── CorsConfig.java         → allows frontend origin
+│   ├── SwaggerConfig.java      → API docs (springdoc-openapi)
+│   └── JwtAuthFilter.java      → validates token per request
+
+├── util/
+│   ├── JwtUtil.java             → generate/validate/parse JWT
+│   └── PasswordEncoderConfig.java → BCrypt bean
+
+├── entity/
+│   ├── User.java
+│   ├── UserProfile.java
+│   ├── Scheme.java
+│   ├── SchemeEligibilityCriteria.java
+│   ├── SchemeDocument.java
+│   ├── SchemeBenefit.java
+│   ├── ApplicationTracking.java
+│   ├── SavedScheme.java
+│   ├── SchemeSyncLog.java
+│   ├── Notification.java
+│   └── enums/
+│       ├── Role.java
+│       ├── SchemeLevel.java
+│       ├── ApplicationStatus.java
+│       └── NotificationType.java
+
+├── repository/
+│   ├── UserRepository.java              → findByEmail(), existsByPhone()
+│   ├── UserProfileRepository.java       → findByUserId()
+│   ├── SchemeRepository.java            → findByIsActiveTrue(), filters
+│   ├── SchemeEligibilityCriteriaRepository.java → findBySchemeId()
+│   ├── SchemeDocumentRepository.java    → findBySchemeId()
+│   ├── SchemeBenefitRepository.java     → findBySchemeId()
+│   ├── ApplicationTrackingRepository.java → findByUserId(), findByReminderSentFalseAndRedirectedOnBefore()
+│   ├── SavedSchemeRepository.java       → findByUserId(), existsByUserIdAndSchemeId()
+│   ├── SchemeSyncLogRepository.java     → findTop10ByOrderBySyncedOnDesc()
+│   └── NotificationRepository.java      → findByUserIdAndIsReadFalse()
+
+├── dto/
+│   ├── request/
+│   │   ├── RegisterRequest.java
+│   │   ├── LoginRequest.java
+│   │   ├── ProfileUpdateRequest.java
+│   │   ├── SchemeCreateRequest.java   ⭐ FIXED — see code below (nested lists)
+│   │   ├── CriteriaDto.java           ⭐ NEW — nested inside SchemeCreateRequest
+│   │   ├── DocumentDto.java           ⭐ NEW
+│   │   ├── BenefitDto.java            ⭐ NEW
+│   │   └── StatusUpdateRequest.java
+│   └── response/
+│       ├── AuthResponse.java
+│       ├── SchemeResponse.java
+│       ├── EligibilityResultResponse.java
+│       ├── ApplicationTrackingResponse.java
+│       └── ApiResponse.java
+
+├── service/
+│   ├── AuthService.java
+│   ├── UserProfileService.java
+│   ├── SchemeService.java              → now handles nested criteria/docs/benefits on create
+│   ├── EligibilityEngineService.java   ⭐ FIXED — full dynamic rule matching (code below)
+│   ├── ApplicationTrackingService.java ⭐ FIXED — now calls NotificationService on status change
+│   ├── SavedSchemeService.java         ⭐ NEW — was missing, added below
+│   ├── GovDataSyncService.java
+│   ├── SchemeScraperService.java
+│   ├── NotificationService.java        → createNotification(), getUnread(), markAsRead()
+│   └── AdminDashboardService.java
+
+├── controller/
+│   ├── AuthController.java             → /api/auth/register, /login
+│   ├── UserProfileController.java      → /api/profile/{userId}
+│   ├── SchemeController.java           → /api/schemes, /api/schemes/{id}
+│   ├── EligibilityController.java      → /api/eligibility/check/{userId}
+│   ├── ApplicationTrackingController.java → /api/apply/redirect, /status, /user/{id}
+│   ├── SavedSchemeController.java      → /api/saved/**
+│   ├── AdminSchemeController.java      → /api/admin/schemes/**
+│   ├── SyncController.java             → /api/admin/sync/trigger, /logs
+│   └── NotificationController.java     → /api/notifications/{userId}, /{id}/read
+
+├── scheduler/
+│   ├── ScheduledSyncTask.java          → daily 2AM data.gov.in sync
+│   └── ReminderSchedulerTask.java      ⭐ NEW — nightly job: notify users who
+│                                          redirected but didn't update status in 5+ days
+
+└── exception/
+    ├── GlobalExceptionHandler.java
+    ├── ResourceNotFoundException.java
+    └── UnauthorizedException.java

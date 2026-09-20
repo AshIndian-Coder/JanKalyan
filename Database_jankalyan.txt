@@ -1,0 +1,149 @@
+-- ============================================
+-- 1. USERS & AUTH
+-- ============================================
+CREATE TABLE users (
+    user_id INT PRIMARY KEY AUTO_INCREMENT,
+    full_name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    phone VARCHAR(15) UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    role ENUM('USER','ADMIN') DEFAULT 'USER',
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- ============================================
+-- 2. USER PROFILE (drives the eligibility engine)
+-- ============================================
+CREATE TABLE user_profiles (
+    profile_id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT UNIQUE NOT NULL,
+    date_of_birth DATE,
+    gender ENUM('MALE','FEMALE','OTHER'),
+    state VARCHAR(50),
+    district VARCHAR(50),
+    annual_income DECIMAL(12,2),
+    caste_category ENUM('GENERAL','OBC','SC','ST','EWS'),
+    occupation VARCHAR(50),
+    education_level VARCHAR(50),
+    is_bpl BOOLEAN DEFAULT FALSE,
+    disability_status BOOLEAN DEFAULT FALSE,
+    marital_status ENUM('SINGLE','MARRIED','WIDOWED','DIVORCED'),
+    land_holding_acres DECIMAL(6,2) DEFAULT 0,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+
+-- ============================================
+-- 3. SCHEMES (core data)
+-- ============================================
+CREATE TABLE schemes (
+    scheme_id INT PRIMARY KEY AUTO_INCREMENT,
+    scheme_name VARCHAR(150) NOT NULL,
+    description TEXT,
+    department VARCHAR(100),
+    level ENUM('CENTRAL','STATE') DEFAULT 'CENTRAL',
+    state VARCHAR(50) NULL,
+    category VARCHAR(50),
+    official_apply_url VARCHAR(500),
+    official_status_check_url VARCHAR(500) NULL,
+    is_active BOOLEAN DEFAULT TRUE,
+    source ENUM('MANUAL','DATA_GOV_IN','SCRAPER') DEFAULT 'MANUAL',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- ============================================
+-- 4. ELIGIBILITY CRITERIA (rules engine)
+-- field_name MUST exactly match a user_profiles column name
+-- ============================================
+CREATE TABLE scheme_eligibility_criteria (
+    criteria_id INT PRIMARY KEY AUTO_INCREMENT,
+    scheme_id INT NOT NULL,
+    field_name VARCHAR(50) NOT NULL,
+    operator ENUM('=','!=','<','<=','>','>=','IN','BETWEEN') NOT NULL,
+    value VARCHAR(255) NOT NULL,
+    value2 VARCHAR(255) NULL,      -- only used for BETWEEN
+    FOREIGN KEY (scheme_id) REFERENCES schemes(scheme_id) ON DELETE CASCADE
+);
+
+-- ============================================
+-- 5. REQUIRED DOCUMENTS
+-- ============================================
+CREATE TABLE scheme_documents (
+    doc_id INT PRIMARY KEY AUTO_INCREMENT,
+    scheme_id INT NOT NULL,
+    document_name VARCHAR(150),
+    FOREIGN KEY (scheme_id) REFERENCES schemes(scheme_id) ON DELETE CASCADE
+);
+
+-- ============================================
+-- 6. BENEFITS
+-- ============================================
+CREATE TABLE scheme_benefits (
+    benefit_id INT PRIMARY KEY AUTO_INCREMENT,
+    scheme_id INT NOT NULL,
+    benefit_description VARCHAR(255),
+    FOREIGN KEY (scheme_id) REFERENCES schemes(scheme_id) ON DELETE CASCADE
+);
+
+-- ============================================
+-- 7. APPLICATION TRACKING
+-- ============================================
+CREATE TABLE application_tracking (
+    tracking_id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    scheme_id INT NOT NULL,
+    redirected_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    user_marked_status ENUM('REDIRECTED','APPLIED','APPROVED','REJECTED') DEFAULT 'REDIRECTED',
+    proof_document_path VARCHAR(300) NULL,
+    reminder_sent BOOLEAN DEFAULT FALSE,
+    updated_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (scheme_id) REFERENCES schemes(scheme_id)
+);
+
+-- ============================================
+-- 8. SAVED / BOOKMARKED SCHEMES
+-- ============================================
+CREATE TABLE saved_schemes (
+    bookmark_id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    scheme_id INT NOT NULL,
+    saved_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(user_id, scheme_id),
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (scheme_id) REFERENCES schemes(scheme_id)
+);
+
+-- ============================================
+-- 9. SYNC LOG
+-- ============================================
+CREATE TABLE scheme_sync_log (
+    sync_id INT PRIMARY KEY AUTO_INCREMENT,
+    source_name VARCHAR(100),
+    synced_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    records_fetched INT,
+    status VARCHAR(255)
+);
+
+-- ============================================
+-- 10. NOTIFICATIONS
+-- ============================================
+CREATE TABLE notifications (
+    notification_id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    message VARCHAR(255),
+    type ENUM('REMINDER','NEW_SCHEME','STATUS_UPDATE') DEFAULT 'REMINDER',
+    is_read BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+
+-- ============================================
+-- INDEXES (performance — for eligibility scans & lookups)
+-- ============================================
+CREATE INDEX idx_criteria_scheme ON scheme_eligibility_criteria(scheme_id);
+CREATE INDEX idx_schemes_active ON schemes(is_active);
+CREATE INDEX idx_tracking_user ON application_tracking(user_id);
+CREATE INDEX idx_notifications_user_unread ON notifications(user_id, is_read);

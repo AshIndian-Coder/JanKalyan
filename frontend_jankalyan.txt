@@ -1,0 +1,74 @@
+src/
+
+├── main.tsx                → app entry, wraps App with Router + AuthProvider
+├── App.tsx                 → global layout: Navbar + Routes + Footer
+
+├── api/
+│   ├── axiosInstance.ts    → base URL + JWT header interceptor
+│   ├── authApi.ts          → register(), login()
+│   ├── profileApi.ts       → getProfile(), updateProfile()
+│   ├── schemeApi.ts        → getAllSchemes(), getSchemeById()
+│   ├── eligibilityApi.ts   → checkEligibility(userId)
+│   ├── applicationApi.ts   → redirectApply(), updateStatus(), getMyApplications()
+│   ├── savedApi.ts         → saveScheme(), unsaveScheme(), getSavedSchemes()
+│   ├── adminApi.ts         → createScheme(), editScheme(), deleteScheme(), getDashboardStats(), triggerSync()
+│   └── notificationApi.ts  → getNotifications(), markAsRead()
+
+├── context/
+│   ├── AuthContext.tsx         → user, token, role, login(), logout()
+│   └── NotificationContext.tsx → unread count for navbar badge
+
+├── hooks/
+│   ├── useAuth.ts
+│   └── useFetch.ts
+
+├── types/
+│   ├── user.types.ts
+│   ├── scheme.types.ts     → Scheme, Criteria, Document, Benefit interfaces (mirrors DTOs)
+│   └── application.types.ts
+
+├── routes/
+│   └── AppRoutes.tsx        → all routes; wraps admin routes in <ProtectedRoute role="ADMIN"/>
+
+├── pages/
+│   ├── Home.tsx                        → landing + "Check Eligibility" CTA
+│   ├── auth/
+│   │   ├── Login.tsx
+│   │   └── Register.tsx
+│   ├── profile/
+│   │   ├── ProfileSetup.tsx            → first-time eligibility form
+│   │   └── ProfileEdit.tsx
+│   ├── schemes/
+│   │   ├── SchemeList.tsx              → browse/search/filter
+│   │   └── SchemeDetail.tsx            → benefits, docs, Apply button
+│   ├── eligibility/
+│   │   └── EligibilityResults.tsx      → matched schemes list
+│   ├── dashboard/
+│   │   └── UserDashboard.tsx           → My Applications | Saved | Notifications tabs
+│   ├── admin/
+│   │   ├── AdminDashboard.tsx          → stats overview
+│   │   ├── ManageSchemes.tsx           → table + edit/delete
+│   │   ├── AddEditScheme.tsx           → form + dynamic criteria/doc/benefit rows
+│   │   └── SyncLogs.tsx                → sync history + "Sync Now" button
+│   └── NotFound.tsx
+
+├── components/
+│   ├── common/
+│   │   ├── Navbar.tsx           → notification bell, role-based links
+│   │   ├── Footer.tsx
+│   │   ├── Loader.tsx
+│   │   └── ProtectedRoute.tsx
+│   ├── scheme/
+│   │   ├── SchemeCard.tsx       → reusable card w/ bookmark icon
+│   │   └── SchemeFilterBar.tsx
+│   ├── application/
+│   │   ├── ApplyButton.tsx      → calls redirectApply(), opens official URL
+│   │   └── StatusTracker.tsx    → dropdown, self-report status
+│   └── admin/
+│       ├── SchemeForm.tsx       → dynamic add/remove rows for criteria/docs/benefits
+│       ├── SyncButton.tsx
+│       └── SyncLogTable.tsx
+
+└── utils/
+    ├── validators.ts
+    └── constants.ts             → categories, states, field_name options for criteria builder
