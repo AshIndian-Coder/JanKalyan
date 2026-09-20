@@ -411,5 +411,4 @@ For issues or questions during evaluation:
 - `GlobalExceptionHandler` provides structured JSON error responses.
 
 ## License
-
-Educational project — free to use and modify.
+https://github.com/AshIndian-Coder/JanKalyan/blob/348c8774a1dc7cb69d73a4e3cb009dbc06189e3c/LICENSE
