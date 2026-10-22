@@ -19,8 +19,20 @@
 *.tar.gz
 *.rar
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
 .env
 application.properties
+
+Frontend/node_modules/
+Frontend/dist/
+Frontend/.env.local
+Frontend/.env.*.local
+
+hash map.txt
+backend_jankalyan.txt
+frontend_jankalyan.txt
+Database_jankalyan.txt
+Backend/target/
+.idea/
+
